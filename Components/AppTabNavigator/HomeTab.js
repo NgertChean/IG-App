@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, ScrollView, Dimensions, Alert, ImageBackground,
 import GridView from 'react-native-super-grid';
 import { Container, Content, Icon, Header, Item, Input, Button, Badge} from 'native-base';
 import CardComponent from '../CardComponent';
-import { fetchCards } from '../trello';
+import { fetchLists, fetchCards } from '../trello';
 import _ from 'lodash';
 
 class HomeTab extends Component {
@@ -133,12 +133,12 @@ class HomeTab extends Component {
                     onChangeText={this.handleLabelChange}
                   /> 
                   {this.state.isNormal ? (
-                    <Button style={{marginLeft: 10, hight: 50}} small bordered onPress={()=>{  
+                    <Button style={{marginLeft: 10, height: 50}} small bordered onPress={()=>{  
                       this.setState({isNormal: !this.state.isNormal});}}>
                       <Icon name='keypad' />
                     </Button>
                   ):(
-                    <Button style={{marginLeft: 10, hight: 50}} small bordered onPress={()=>{this.setState({isNormal: !this.state.isNormal});}}>
+                    <Button style={{marginLeft: 10, height: 50}} small bordered onPress={()=>{this.setState({isNormal: !this.state.isNormal});}}>
                       <Icon name='film' />
                     </Button>
                   )}    
@@ -166,13 +166,13 @@ class HomeTab extends Component {
 
                 {
                   this.state.allLabels.map(label => (
-                    <View style={{width:100, height:100}}>
+                    <View key={label} style={{width:100, height:100}}>
                       <ImageBackground                            
                         source={require('../../assets/images/border.png')}
                         style={{ flex: 1, width: 100, height: 100}}
                       >
                         <Text
-                          style={{textAlign: 'center', fontWeight: 'bold', marginTop: 30, color: 'white', width: 100, height: 100}} 
+                          style={{textAlign: 'center', fontWeight: 'bold', marginTop: 30, color: 'white', width: 100, height: 100, fontSize: 20}} 
                           onPress={() => {this.onPressScrollView(label)}}>
                             {label}
                         </Text>
