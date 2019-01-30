@@ -25,6 +25,7 @@ class SearchTab extends Component {
 
     async componentDidMount() {
         const medias = await fetchMedias();
+        console.log(medias)
         this.setState({ medias: medias.data });
     }
 
@@ -38,7 +39,7 @@ class SearchTab extends Component {
     render() {
         return (
           <Container style={styles.container}>
-            <GridView
+            {this.state.medias && <GridView
               items={this.state.medias}
               itemDimension={100}
               spacing={5}
@@ -72,7 +73,7 @@ class SearchTab extends Component {
                   </ImageBackground>
                 </TouchableHighlight>
               )}              
-            />            
+            />}           
           </Container>
         );
     }
