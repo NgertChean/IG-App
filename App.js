@@ -3,12 +3,13 @@ import { StyleSheet, Text, View, AppState, Platform, Alert, TouchableHighlight, 
 import { StackNavigator } from 'react-navigation'
 import MainScreen from './Components/MainScreen'
 import PushNotification from 'react-native-push-notification'
+import Moment from "moment";
 
 export default class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      time: 60
+      time: '15:12:00'
     }; 
 
     PushNotification.configure({
@@ -38,8 +39,9 @@ export default class App extends React.Component {
   }
 
   fireNotification(){
-    let date = new Date(Date.now() + (this.state.time * 1000)); 
-
+    const _date = Moment(new Date()).format("YYYY-MM-DD");
+    const date = new Date(_date + ' ' + this.state.time);
+    console.log(Moment(date).format("YYYY-MM-DD hh:mm:ss A"));
     PushNotification.localNotificationSchedule({
         message: "Hello Friend, you have new notfication",
         title: "My App Title",
