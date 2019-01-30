@@ -10,6 +10,14 @@ export const fetchCards = async () => {
     return cards;
 };
 
+export const fetchLists = async () => {
+    const response = await fetch(
+        `https://api.trello.com/1/boards/${BOARD_ID}/lists?key=${API_KEY}&token=${API_TOKEN}&attachments=true`
+    );
+    const lists = await response.json();
+    return lists;
+};
+
 export const fetchCard = async (cardId) => {
     const response = await fetch(
         `https://api.trello.com/1/boards/${BOARD_ID}/cards/${cardId}?key=${API_KEY}&token=${API_TOKEN}&attachments=true`
