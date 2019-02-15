@@ -1,7 +1,16 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow
+ * @lint-ignore-every XPLATJSCOPYRIGHT1
+ */
+
 import React from 'react'
 import { StyleSheet, Text, View, AppState, Platform, Alert, TouchableHighlight, Button, PushNotificationIOS } from 'react-native'
-import { StackNavigator } from 'react-navigation'
-import MainScreen from './Components/MainScreen'
+import { createStackNavigator, createAppContainer } from 'react-navigation'
+import MainScreen from './src/Components/MainScreen'
 import PushNotification from 'react-native-push-notification'
 import Moment from "moment";
 
@@ -31,7 +40,7 @@ export default class App extends React.Component {
      popInitialNotification: true,
      requestPermissions: true,
 
-    });    
+    });
   }
 
   componentDidMount(){
@@ -42,6 +51,7 @@ export default class App extends React.Component {
     const _date = Moment(new Date()).format("YYYY-MM-DD");
     const date = new Date(_date + ' ' + this.state.time);
     console.log(Moment(date).format("YYYY-MM-DD hh:mm:ss A"));
+
     PushNotification.localNotificationSchedule({
         message: "Hello Friend, you have new notfication",
         title: "My App Title",
@@ -49,22 +59,24 @@ export default class App extends React.Component {
         color: "red",
         repeatType: "day",
         foreground: true,
-        date
+        date: new Date(Date.now() + (60 * 1000))
       });
   }
 
   render() {
     return (
-        <AppStackNavigator />
+        <AppContainer />
     );
   }
 }
 
-const AppStackNavigator = StackNavigator({
+const AppStackNavigator = createStackNavigator({
   Main: {
     screen: MainScreen
   }
 })
+
+const AppContainer = createAppContainer(AppStackNavigator);
 
 const styles = StyleSheet.create({
   container: {

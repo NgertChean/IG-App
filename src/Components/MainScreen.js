@@ -8,7 +8,7 @@ import LikesTab from './AppTabNavigator/LikesTab';
 import ProfileTab from './AppTabNavigator/ProfileTab';
 import StackedManageCardScreen from './StackedManageCardScreen';
 
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 import { Icon } from 'native-base';
 
 class MainScreen extends Component {
@@ -22,13 +22,13 @@ class MainScreen extends Component {
 }
 export default MainScreen;
 
-const AppTabNavigator = TabNavigator(
+const AppTabNavigator = createAppContainer( createBottomTabNavigator(
   {
     HomeTab: {
-      screen: StackNavigator({
+      screen: createAppContainer(createStackNavigator({
         HomeScreen: { screen: HomeTab },
         ManageCardScreen: { screen: StackedManageCardScreen }
-      }),
+      })),
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Icon name="ios-home" style={{ color: tintColor }} />
       }
@@ -64,4 +64,4 @@ const AppTabNavigator = TabNavigator(
       showIcon: true
     }
   }
-);
+));

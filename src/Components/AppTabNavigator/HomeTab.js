@@ -32,6 +32,7 @@ class HomeTab extends Component {
           this.setState({instagramAttachment: navigation.state.params.instagramAttachment})
         }
         const cards = await fetchCards();
+        console.log(cards);
         this.setState({ cards, filteredCards: cards });
         this.findAllPossibleLabels();  
     }
