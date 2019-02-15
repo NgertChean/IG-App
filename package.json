@@ -24,6 +24,8 @@
     "react-native-push-notification": "^3.1.2",
     "react-native-status-bar-height": "^2.2.0",
     "react-native-super-grid": "^3.0.1",
+    "react-native-video": "./react-native-video",
+    "react-native-video-controls": "^2.2.3",
     "react-navigation": "^3.2.3"
   },
   "devDependencies": {
