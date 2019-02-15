@@ -1,6 +1,6 @@
 import firebaseApp from './firebase';
 import queryString from 'query-string';
-import { BOARD_ID, API_KEY, API_TOKEN } from '../constants/trello_insta';
+import { BOARD_ID, LIST_ID, API_KEY, API_TOKEN } from '../constants/trello_insta';
 
 export const fetchCards = async () => {
     const response = await fetch(

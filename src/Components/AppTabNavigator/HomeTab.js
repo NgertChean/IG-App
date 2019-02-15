@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, ScrollView, Dimensions, Alert, ImageBackground,
 import GridView from 'react-native-super-grid';
 import { Container, Content, Icon, Header, Item, Input, Button, Badge} from 'native-base';
 import CardComponent from '../CardComponent';
-import { fetchLists, fetchCards } from '../trello';
+import { fetchLists, fetchVideoCards, fetchCards } from '../trello';
 import _ from 'lodash';
 
 class HomeTab extends Component {
@@ -33,6 +33,8 @@ class HomeTab extends Component {
         }
         const cards = await fetchCards();
         console.log(cards);
+        const lists = await fetchLists();
+        console.log(lists);
         this.setState({ cards, filteredCards: cards });
         this.findAllPossibleLabels();  
     }

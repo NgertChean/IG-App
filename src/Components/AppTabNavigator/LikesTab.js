@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, ScrollView, Dimensions, Alert, ImageBackground, Image, TouchableHighlight } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Dimensions, Alert, ImageBackground, Image, TouchableHighlight, TouchableOpacity } from "react-native";
 import GridView from 'react-native-super-grid';
-import { Container, Content, Icon, Header, Item, Input, Button, Badge} from 'native-base';
+import { Container, Content, Icon, Card, CardItem, Body} from 'native-base';
+import VideoPlayer from 'react-native-video-controls';
+
 import CardComponent from '../CardComponent';
 import { fetchCards } from '../trello';
+import { LIST_ID } from '../../constants/trello_insta';
+
 import _ from 'lodash';
 
 class LikesTab extends Component {
@@ -12,7 +16,8 @@ class LikesTab extends Component {
         cards: [],
         filteredCards: [],
         changedLabel: '',
-        allLabels: []
+        allLabels: [],
+        playVideoID: '0'
     };
 
     static navigationOptions = {
@@ -28,7 +33,9 @@ class LikesTab extends Component {
 
     async componentDidMount() {
         const cards = await fetchCards();
-        this.setState({ cards, filteredCards: cards });
+        const videos = _.filter(cards, card => card.idList == LIST_ID);
+        console.log(videos);
+        this.setState({ cards: videos, filteredCards: videos });
         this.findAllPossibleLabels();  
     }
 
@@ -74,66 +81,91 @@ class LikesTab extends Component {
         return (
             <Container>
                 <ScrollView
-                    horizontal={ true }
-                    style = {{marginTop: 25}}
-                    showsHorizontalScrollIndicator = { true }
-                    showsVerticalScrollIndicator = { false }
+                  horizontal={ true }
+                  style = { styles.labelSwiper }
+                  showsHorizontalScrollIndicator = { true }
+                  showsVerticalScrollIndicator = { false }
                 >  
-
-                <TouchableHighlight onPress={() => {this.onPressScrollView('')}} style={{width:100, height:100}}>
-                  <ImageBackground                            
-                    source={require('../../assets/images/border.png')}
-                    style={{ flex: 1, width: 100, height: 100}}
-                  >
-                    <Text
-                      style={{textAlign: 'center', fontWeight: 'bold', marginTop: 30, color: 'white', width: 100, height: 100, fontSize: 20}} 
+                  <TouchableHighlight onPress={() => {this.onPressScrollView('')}} style={{width:100, height:100}}>
+                    <ImageBackground                            
+                      source={require('../../assets/images/border.png')}
+                      style={{ flex: 1, width: 100, height: 100}}
                     >
-                      All
-                    </Text>
-                  </ImageBackground>
-                </TouchableHighlight> 
-
-                {
-                  this.state.allLabels.map(label => (
-                    <View style={{width:100, height:120}}>
-                      <ImageBackground                            
-                        source={require('../../assets/images/border.png')}
-                        style={{ flex: 1, width: 100, height: 100}}
+                      <Text
+                        style={{textAlign: 'center', fontWeight: 'bold', marginTop: 30, color: 'white', width: 100, height: 100, fontSize: 20}} 
                       >
-                        <Text
-                          style={{textAlign: 'center', fontWeight: 'bold', marginTop: 30, color: 'white', width: 100, height: 100}} 
-                          onPress={() => {this.onPressScrollView(label)}}>
-                            {label}
-                        </Text>
-                      </ImageBackground>
-                    </View>
-                  ))  
-                }                  
-                </ScrollView>
+                        All
+                      </Text>
+                    </ImageBackground>
+                  </TouchableHighlight> 
 
-                <ScrollView
-                    showsHorizontalScrollIndicator = { false }
-                    showsVerticalScrollIndicator = { true }
-                >                
+                  {
+                    this.state.allLabels.map(label => (
+                      <View key = {label} style={{width:100, height:120}}>
+                        <ImageBackground                            
+                          source={require('../../assets/images/border.png')}
+                          style={{ flex: 1, width: 100, height: 100}}
+                        >
+                          <Text
+                            style={{textAlign: 'center', fontWeight: 'bold', marginTop: 30, color: 'white', width: 100, height: 100, fontSize: 20}} 
+                            onPress={() => {this.onPressScrollView(label)}}>
+                              {label}
+                          </Text>
+                        </ImageBackground>
+                      </View>
+                    ))  
+                  }                  
+                </ScrollView>
+                <Content>
                 {
-                    this.state.filteredCards.map(card => (
-                        card.attachments.map(attachment => (
-                          <View>
-                            <Image
-                                source={{uri: attachment.url}}
-                                style={{ height: 200, width: 375 }} 
-                            />
-                            <View style={{height: 2}}>
-                            </View>
-                          </View>
-                        ))                        
-                    ))
+                  this.state.filteredCards.map(card => (
+                      card.attachments.map(attachment => (
+                        <Card>
+                          <CardItem cardBody>
+                            <TouchableOpacity
+                              key = {attachment.id}
+                              onPress = {() => this.setState({playVideoID: attachment.id})}
+                            >
+                              <VideoPlayer
+                                source = {{uri: attachment.url}}
+                                repeat = { true }
+                                paused = { attachment.id != this.state.playVideoID }
+                                style={{ height: 250, width: null }} 
+                                onError = {(err)=>{console.log(err,'error')}}
+                                onEnd = {() => this.setState({playVideoID: '0'})}
+                                disableBack = { true }
+                                disableFullscreen = {true}
+                              />
+                            </TouchableOpacity>
+                          </CardItem>
+                          <CardItem>
+                            <Body>
+                              <Text>{ attachment.name }</Text>
+                            </Body>
+                          </CardItem>
+                        </Card>
+                      ))                        
+                  ))
                 }
-                </ScrollView>   
+                </Content>
             </Container>
         );
     }
 }
+
+const styles = StyleSheet.create({    
+  labelSwiper: {
+      backgroundColor: 'white',
+      height: 100,
+      maxHeight: 100
+  },
+  gridView: {
+      borderRadius: 10,
+      paddingTop: 0,
+      flex: 1,
+      borderColor: 'black'
+  }
+});
 
 LikesTab.propTypes = {
   navigation: PropTypes.object.isRequired
