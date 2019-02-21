@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, ScrollView, Dimensions, Alert, ImageBackground, Image, TouchableHighlight, TouchableOpacity } from "react-native";
 import GridView from 'react-native-super-grid';
-import { Container, Content, Icon, Card, CardItem, Body} from 'native-base';
+import { Container, Content, Icon, Card, CardItem, Body, Left, Badge} from 'native-base';
 import VideoPlayer from 'react-native-video-controls';
 
 import CardComponent from '../CardComponent';
 import { fetchCards } from '../trello';
 import { LIST_ID } from '../../constants/trello_insta';
+import VideoCardComponent from '../VideoComponents/VideoCardComponent'
 
 import _ from 'lodash';
 
@@ -21,11 +22,8 @@ class LikesTab extends Component {
     };
 
     static navigationOptions = {
-      tabBarIcon:  ({ tintColor })=>(
-        <Icon name="ios-heart" style={{ color:
-        tintColor }} />
-      )
-    }
+      header: null
+    };
 
     constructor(props) {
         super(props);        
@@ -119,32 +117,7 @@ class LikesTab extends Component {
                 <Content>
                 {
                   this.state.filteredCards.map(card => (
-                      card.attachments.map(attachment => (
-                        <Card>
-                          <CardItem cardBody>
-                            <TouchableOpacity
-                              key = {attachment.id}
-                              onPress = {() => this.setState({playVideoID: attachment.id})}
-                            >
-                              <VideoPlayer
-                                source = {{uri: attachment.url}}
-                                repeat = { true }
-                                paused = { attachment.id != this.state.playVideoID }
-                                style={{ height: 250, width: null }} 
-                                onError = {(err)=>{console.log(err,'error')}}
-                                onEnd = {() => this.setState({playVideoID: '0'})}
-                                disableBack = { true }
-                                disableFullscreen = {true}
-                              />
-                            </TouchableOpacity>
-                          </CardItem>
-                          <CardItem>
-                            <Body>
-                              <Text>{ attachment.name }</Text>
-                            </Body>
-                          </CardItem>
-                        </Card>
-                      ))                        
+                    <VideoCardComponent key = {card.id} card = {card} navigation = {this.props.navigation}/>                       
                   ))
                 }
                 </Content>
