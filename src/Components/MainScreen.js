@@ -7,6 +7,7 @@ import TabedManageCardScreen from './AppTabNavigator/TabedManageCardScreen';
 import LikesTab from './AppTabNavigator/LikesTab';
 import ProfileTab from './AppTabNavigator/ProfileTab';
 import StackedManageCardScreen from './StackedManageCardScreen';
+import StackedManageTrelloVideoCard from './VideoComponents/StackedManageTrelloVideoCard'
 
 import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -40,7 +41,13 @@ const AppTabNavigator = createAppContainer( createBottomTabNavigator(
       screen: TabedManageCardScreen
     },
     LikesTab: {
-      screen: LikesTab
+      screen: createAppContainer(createStackNavigator({
+        LikesScreen: { screen: LikesTab },
+        ManageVideoScreen: { screen: StackedManageTrelloVideoCard }
+      })),
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => <Icon name="ios-heart" style={{ color: tintColor }} />
+      }
     },
     ProfileTab: {
       screen: ProfileTab
