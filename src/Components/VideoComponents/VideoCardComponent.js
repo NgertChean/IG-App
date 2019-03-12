@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from "react-native";
-import { Card, CardItem, Body, Left, Badge, Button } from 'native-base';
+import { Card, CardItem, Body, Left, Badge, Button, Item } from 'native-base';
 import VideoPlayer from 'react-native-video-controls';
+
+import {updateCard} from '../trello'
+import {WATCHED_LIST_ID} from '../../constants/trello_insta'
 
 import _ from 'lodash';
 
@@ -14,8 +17,14 @@ class VideoCardComponent extends Component {
 		};
 	}
 
+	upDateVideo = (attachment) => {
+    this.state.card.attachments.forEach((Item) => {if(Item.id == attachment.id) Item.url = attachment.url;})
+    this.forceUpdate();
+	}
+
 	render() {
-		const { card } = this.state;
+    const { card } = this.state;
+    const { watched, watchedCard } = this.props;
 		return (
 			<View>
 				{card.attachments.map(attachment => (
@@ -48,12 +57,26 @@ class VideoCardComponent extends Component {
 								/>
 						{/* </TouchableOpacity> */}
 						</CardItem>
-						<CardItem>
-							<Button success onPress = {() => this.props.navigation.navigate('ManageVideoScreen', {
-								card: card, attachment: attachment
+						<CardItem style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+							<Text>{ attachment.name }</Text>
+              <Button 
+                success
+                style = {{paddingLeft:15, paddingRight: 15}}
+                onPress = {() => this.props.navigation.navigate('ManageVideoScreen', {
+								  idCard: card.id, attachment: attachment, upDateVideo: this.upDateVideo
 							})} >
-								<Text>{ attachment.name }</Text>
+								<Text>{ "Edit" }</Text>
 							</Button>
+              {!watched &&<Button 
+                success 
+                style = {{paddingLeft:15, paddingRight: 15}}
+                onPress = {() => {
+                  card.idList = WATCHED_LIST_ID;
+                  updateCard(card);
+                  watchedCard(card.id);
+              }} >
+								<Text>{ "watched" }</Text>
+							</Button>}
 						</CardItem>
 					</Card>
 				))}  
