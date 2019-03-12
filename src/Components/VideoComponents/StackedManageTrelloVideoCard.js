@@ -21,8 +21,11 @@ class StackedManageTrelloVideoCard extends Component {
 		super(props);
 		this.state = {
 			playVideo: true,
-			startTime: 0,
-			endTime: 0,
+			clipData: {
+				clipCount: 0,
+				clipUrls: [],
+				clipTimes: [],
+			},
 			trimVideoPath: null,
 			isPopoverVisible: true,
 			videoPath: '',
@@ -49,6 +52,7 @@ class StackedManageTrelloVideoCard extends Component {
 	videoClipping = () => {
 		const startTime = this.currentTime > 15 ? this.currentTime - 15 : 0;
 		const endTime = this.currentTime;
+		const { clipData } = this.state;
     if(endTime > startTime){
       console.log(startTime, endTime);   
       this.videoPlayerRef.trim({
@@ -57,14 +61,21 @@ class StackedManageTrelloVideoCard extends Component {
 			})
 			.then((newSource) => {
 				console.log(newSource,'trimVideoPath')
-				this.clipUrls.push('file://' + newSource)    
+				clipData.clipCount++;
+				clipData.clipUrls.push('file://' + newSource);
+				clipData.clipTimes.push({
+					startTime, endTime
+				});
+				this.setState({clipData});
+				console.log(clipData, "clipData");
 			})
 			.catch(console.warn);
     }
   }
   
   upDate = () => {
-		console.log(this.clipUrls, 'clipUrls');
+		const {clipUrls} = this.state.clipData;
+		console.log(clipUrls, 'clipUrls');
 		const params = this.props.navigation.state.params;
 		const attachment = params.attachment;
 		const idCard = params.idCard;
@@ -74,7 +85,7 @@ class StackedManageTrelloVideoCard extends Component {
 		this.setState({isPopoverVisible: true});
 		
     RNVideoEditor.merge(
-      this.clipUrls,
+      clipUrls,
       (results) => {
         alert('Error: ' + results);
       },
@@ -93,11 +104,12 @@ class StackedManageTrelloVideoCard extends Component {
 		const { navigation } = this.props;
 		const attachment = navigation.state.params.attachment;
 		const {videoPath, isPopoverVisible} = this.state;
+		const {clipCount, clipTimes} = this.state.clipData;
 		return (
 			<Container>
 				<Content padder>
 					<Form>
-						<Item stackedLabel>
+						<Item>
 							<Label>{attachment.name}</Label>
 						</Item>
 						<VideoPlayer
@@ -124,19 +136,24 @@ class StackedManageTrelloVideoCard extends Component {
 						/>
 						<TouchableOpacity 
               style={{
-                top: 10,
-                width: 150,
-								height: 50,
+                margin: 10,
+                width: 100,
+								height: 30,
 								alignSelf: 'center',
                 justifyContent:'center',
                 alignItems:'center',
-                borderRadius: 25,
+                borderRadius: 15,
                 backgroundColor: 'green',
               }}
               onPress = {this.videoClipping}
             >
-              <Text style={{ textAlign: 'center',fontWeight:'bold', fontSize: 20 }}>{'Clip'}</Text>
+              <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 18 }}>{'Clip'}</Text>
             </TouchableOpacity>
+						{clipTimes.map((time, index) => (
+							<Item key = {index} style = {{paddingLeft: 50}}>
+								<Label>{'[ ' + time.startTime + ',  ' + time.endTime + ' ]'}</Label>
+							</Item>
+						))}
 					</Form>
 				</Content>
 				<Button success block onPress={this.upDate}>

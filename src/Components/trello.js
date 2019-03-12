@@ -93,19 +93,19 @@ const _isBlob = blob => {
 
 export const addAttachment = async (cardId, attachment) => {
     const baseUrl = `https://api.trello.com/1/cards/${cardId}`;
-    console.log(attachment);
-    const data = await RNFetchBlob.fs.readfile(attachment.url, 'base64');
-    console.log(data);
-    const formData = new FormData();
-    formData.append('file', data);
+    // console.log(attachment);
+    // const data = await RNFetchBlob.readfile(attachment.url, 'base64');
+    // console.log(data);
+    // const formData = new FormData();
+    // formData.append('file', data);
 
-    const query = {
-        key: API_KEY,
-        token: API_TOKEN,
-        name: attachment.name,
-        file: data,
-        mimeType: attachment.mimeType
-    };
+    // const query = {
+    //     key: API_KEY,
+    //     token: API_TOKEN,
+    //     name: attachment.name,
+    //     file: data,
+    //     mimeType: attachment.mimeType
+    // };
 
     try {
         // await fetch(`${baseUrl}/attachments?${queryString.stringify(query)}`, { 

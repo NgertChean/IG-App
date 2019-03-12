@@ -59,22 +59,22 @@ class VideoCardComponent extends Component {
 						</CardItem>
 						<CardItem style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 							<Text>{ attachment.name }</Text>
-              <Button 
-                success
-                style = {{paddingLeft:15, paddingRight: 15}}
-                onPress = {() => this.props.navigation.navigate('ManageVideoScreen', {
+							<Button 
+								success
+								style = {{paddingLeft:15, paddingRight: 15, borderRadius: 5}}
+								onPress = {() => this.props.navigation.navigate('ManageVideoScreen', {
 								  idCard: card.id, attachment: attachment, upDateVideo: this.upDateVideo
 							})} >
 								<Text>{ "Edit" }</Text>
 							</Button>
-              {!watched &&<Button 
-                success 
-                style = {{paddingLeft:15, paddingRight: 15}}
-                onPress = {() => {
-                  card.idList = WATCHED_LIST_ID;
-                  updateCard(card);
-                  watchedCard(card.id);
-              }} >
+								{!watched &&<Button 
+									success 
+									style = {{paddingLeft:15, paddingRight: 15, borderRadius: 5}}
+									onPress = {() => {
+									card.idList = WATCHED_LIST_ID;
+									updateCard(card);
+									watchedCard(card.id);
+								}} >
 								<Text>{ "watched" }</Text>
 							</Button>}
 						</CardItem>
