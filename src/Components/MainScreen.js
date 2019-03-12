@@ -5,6 +5,7 @@ import HomeTab from './AppTabNavigator/HomeTab';
 import SearchTab from './AppTabNavigator/SearchTab';
 import TabedManageCardScreen from './AppTabNavigator/TabedManageCardScreen';
 import LikesTab from './AppTabNavigator/LikesTab';
+import WatchedTab from './AppTabNavigator/WatchedTab';
 import ProfileTab from './AppTabNavigator/ProfileTab';
 import StackedManageCardScreen from './StackedManageCardScreen';
 import StackedManageTrelloVideoCard from './VideoComponents/StackedManageTrelloVideoCard'
@@ -47,6 +48,15 @@ const AppTabNavigator = createAppContainer( createBottomTabNavigator(
       })),
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Icon name="ios-heart" style={{ color: tintColor }} />
+      }
+    },
+    WacthedTab: {
+      screen: createAppContainer(createStackNavigator({
+        WacthedScreen: { screen: WatchedTab },
+        ManageVideoScreen: { screen: StackedManageTrelloVideoCard }
+      })),
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => <Icon name="ios-eye" style={{ color: tintColor }} />
       }
     },
     ProfileTab: {

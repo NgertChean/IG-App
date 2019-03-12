@@ -2,18 +2,16 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, ScrollView, Dimensions, Alert, ImageBackground, Image, TouchableHighlight, TouchableOpacity } from "react-native";
 import GridView from 'react-native-super-grid';
-import { Container, Content, Icon, Card, CardItem, Body, Left, Badge} from 'native-base';
-import VideoPlayer from 'react-native-video-controls';
+import { Container, Content } from 'native-base';
+import { EventRegister } from 'react-native-event-listeners';
 
-import CardComponent from '../CardComponent';
 import { fetchCards } from '../trello';
-import { VIDEO_LIST_ID as LIST_ID } from '../../constants/trello_insta';
+import { WATCHED_LIST_ID as LIST_ID } from '../../constants/trello_insta';
 import VideoCardComponent from '../VideoComponents/VideoCardComponent'
 
 import _ from 'lodash';
-import { EventRegister } from 'react-native-event-listeners';
 
-class LikesTab extends Component {
+class WatchedTab extends Component {
     state = {
         cards: [],
         filteredCards: [],
@@ -28,7 +26,9 @@ class LikesTab extends Component {
 
     constructor(props) {
         super(props);
-        this.watchedCard = this.watchedCard.bind(this); 
+        this.EventRegister_Update= EventRegister.addEventListener('UploadWatch', () => {
+          this.componentDidMount();
+        })  
     }
 
     async componentDidMount() {
@@ -36,11 +36,11 @@ class LikesTab extends Component {
         const videos = _.filter(cards, card => card.idList == LIST_ID);
         console.log(videos);
         this.setState({ cards: videos, filteredCards: videos });
-        this.findAllPossibleLabels();  
+        this.findAllPossibleLabels();
     }
 
     findAllPossibleLabels(){
-      const cards = this.state.filteredCards;      
+      const {cards} = this.state;      
       var allLabels = [];
 
       cards.map(card => (
@@ -75,12 +75,6 @@ class LikesTab extends Component {
           })
         });
     } 
-
-    watchedCard(idCard) {
-      const cards = this.state.filteredCards;
-        this.setState({filteredCards: _.filter(cards, card => card.id != idCard)},this.findAllPossibleLabels);
-        EventRegister.emit('UploadWatch');
-    }
 
     render() {
         const { changedLabel } = this.state;
@@ -125,7 +119,7 @@ class LikesTab extends Component {
                 <Content>
                 {
                   this.state.filteredCards.map(card => (
-                    <VideoCardComponent key = {card.id} watched = {false} watchedCard = {this.watchedCard} card = {card} navigation = {this.props.navigation}/>                       
+                    <VideoCardComponent key = {card.id} watched = {true} card = {card} navigation = {this.props.navigation}/>                       
                   ))
                 }
                 </Content>
@@ -148,8 +142,8 @@ const styles = StyleSheet.create({
   }
 });
 
-LikesTab.propTypes = {
+WatchedTab.propTypes = {
   navigation: PropTypes.object.isRequired
 };
 
-export default LikesTab;
+export default WatchedTab;

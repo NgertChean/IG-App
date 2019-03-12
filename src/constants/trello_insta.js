@@ -12,7 +12,8 @@
  */
 
 export const BOARD_ID = '';
-export const LIST_ID = '';
+export const VIDEO_LIST_ID = ''; // specia listID for Video
+export const WATCHED_LIST_ID = ''; // specia listID for Watched Video
 export const API_KEY = '';
 export const API_TOKEN = '';
 

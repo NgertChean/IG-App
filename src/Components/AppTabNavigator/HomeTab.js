@@ -5,7 +5,7 @@ import GridView from 'react-native-super-grid';
 import { Container, Content, Icon, Header, Item, Input, Button, Badge} from 'native-base';
 import CardComponent from '../CardComponent';
 import { fetchLists, fetchVideoCards, fetchCards } from '../trello';
-import { LIST_ID } from '../../constants/trello_insta';
+import { VIDEO_LIST_ID as LIST_ID } from '../../constants/trello_insta';
 
 import _ from 'lodash';
 
