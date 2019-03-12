@@ -3,6 +3,7 @@ package com.ig;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactlibrary.RNVideoEditorPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.shahenlibrary.RNVideoProcessingPackage;
 import com.brentvatne.react.ReactVideoPackage;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNVideoEditorPackage(),
             new RNFetchBlobPackage(),
             new RNVideoProcessingPackage(),
             new ReactVideoPackage(),

@@ -6113,6 +6113,13 @@ react-native-easy-grid@0.2.0:
   dependencies:
     lodash "^4.11.1"
 
+react-native-event-listeners@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-event-listeners/-/react-native-event-listeners-1.0.3.tgz#8e210491b0eab8f714317a0f8c2d322bb2036268"
+  integrity sha1-jiEEkbDquPcUMXoPjC0yK7IDYmg=
+  dependencies:
+    type-detect "4.0.3"
+
 react-native-fetch-blob@^0.10.8:
   version "0.10.8"
   resolved "https://registry.yarnpkg.com/react-native-fetch-blob/-/react-native-fetch-blob-0.10.8.tgz#4fc256abae0cb5f10e7c41f28c11b3ff330d72a9"
@@ -6213,6 +6220,11 @@ react-native-video-controls@^2.2.3:
   integrity sha512-jC7wazPUx8TxZZAp52dOkHUOEGyUb294NI3PIZp+IjsaG1KYkZ84rxUBLMvGiTPno2Jxw19nl8cgQSv6sMGpPQ==
   dependencies:
     lodash "^4.16.4"
+
+react-native-video-editor@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-video-editor/-/react-native-video-editor-0.2.0.tgz#7c2ee8b89dce2b4ee3990964dc4f7624ff900a5f"
+  integrity sha512-Xr1G46QcE5x9/gf5xnrhVE050m4I9rIKgwspsgS47RkL9bVOHiPKQs1aVeEvhT7W4GM90t2s/Izz7LvSQtpzxQ==
 
 react-native-video-processing@^1.20.0:
   version "1.20.0"
@@ -7367,6 +7379,11 @@ type-check@~0.3.2:
   integrity sha1-WITKtRLPHTVeP7eE8wgEsrUg23I=
   dependencies:
     prelude-ls "~1.1.2"
+
+type-detect@4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.3.tgz#0e3f2670b44099b0b46c284d136a7ef49c74c2ea"
+  integrity sha1-Dj8mcLRAmbC0bChNE2p+9Jx0wuo=
 
 typedarray@^0.0.6:
   version "0.0.6"
