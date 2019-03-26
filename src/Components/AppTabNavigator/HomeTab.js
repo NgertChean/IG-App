@@ -5,7 +5,7 @@ import GridView from 'react-native-super-grid';
 import { Container, Content, Icon, Header, Item, Input, Button, Badge} from 'native-base';
 import CardComponent from '../CardComponent';
 import { fetchLists, fetchVideoCards, fetchCards } from '../trello';
-import { VIDEO_LIST_ID as LIST_ID } from '../../constants/trello_insta';
+import { VIDEO_LIST_ID, WATCHED_LIST_ID } from '../../constants/trello_insta';
 
 import _ from 'lodash';
 
@@ -34,7 +34,7 @@ class HomeTab extends Component {
           this.setState({instagramAttachment: navigation.state.params.instagramAttachment})
         }
         const cards = await fetchCards();
-        const images = _.filter(cards, card => card.idList != LIST_ID);        
+        const images = _.filter(cards, card => card.idList != VIDEO_LIST_ID && card.idList != WATCHED_LIST_ID);        
         console.log(cards);
 
         this.setState({ cards: images, filteredCards: images });

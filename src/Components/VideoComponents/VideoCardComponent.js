@@ -4,10 +4,12 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Card, CardItem, Body, Left, Badge, Button, Item } from 'native-base';
 import VideoPlayer from 'react-native-video-controls';
 
-import {updateCard} from '../trello'
-import {WATCHED_LIST_ID} from '../../constants/trello_insta'
+import {updateCard} from '../trello';
+import {WATCHED_LIST_ID} from '../../constants/trello_insta';
+import YouTube from '../YouTube';
 
 import _ from 'lodash';
+import getVideoId from 'get-video-id';
 
 class VideoCardComponent extends Component {
 	constructor(props) {
@@ -42,20 +44,23 @@ class VideoCardComponent extends Component {
 							</Left>
 						</CardItem>
 						<CardItem cardBody>
-							{/* <TouchableOpacity
-									onPress = {() => this.setState({playVideoID: attachment.id})}
-							> */}
-								<VideoPlayer
-									source = {{uri: attachment.url}}
-									repeat = { true }
-									paused = { attachment.id != this.state.playVideoID }
-									style={{ height: 260, width: null }} 
-									onError = {(err)=>{console.log(err,'error')}}
-									onEnd = {() => this.setState({playVideoID: '0'})}
-									disableBack = { true }
-									disableFullscreen = {true}
-								/>
-						{/* </TouchableOpacity> */}
+							{/* <VideoPlayer
+								source = {{uri: attachment.url}}
+								repeat = { true }
+								paused = { attachment.id != this.state.playVideoID }
+								playInBackground={true}
+								playWhenInactive={true}
+								style={{ height: 260, width: null }} 
+								onError = {(err)=>{console.log(err,'error')}}
+								onEnd = {() => this.setState({playVideoID: '0'})}
+								disableBack = { true }
+								disableFullscreen = {true}
+							/> */}
+							<YouTube
+								id = { getVideoId(attachment.url).id }
+								autoplay = {false}
+								style = {{ height: 260, width: null }}
+							/>
 						</CardItem>
 						<CardItem style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 							<Text>{ attachment.name }</Text>
