@@ -134,6 +134,9 @@ android {
 }
 
 dependencies {
+    implementation project(':appcenter-crashes')
+    implementation project(':appcenter-analytics')
+    implementation project(':appcenter')
     implementation project(':react-native-video-editor')
     implementation project(':react-native-fetch-blob')
     implementation project(':react-native-video-processing')

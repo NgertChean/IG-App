@@ -7,6 +7,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "appcenter": "1.13.0",
+    "appcenter-analytics": "1.13.0",
+    "appcenter-crashes": "1.13.0",
     "b64-to-blob": "^1.2.19",
     "firebase": "^5.8.2",
     "get-video-id": "^3.1.1",
